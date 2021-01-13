@@ -1,6 +1,14 @@
 var currentUserKey = ''; //Global variable.
 var chatKey = '';
 
+// sending message
+document.addEventListener('keydown', function(event){
+    if(event.key === "Enter"){
+        sendMessage(); 
+        //console.log('Enter');  
+    }
+});
+
 function startChat(friendKey, friendName, friendPhoto){
     var friendList = {friendId: friendKey, userId: currentUserKey};
 
@@ -41,7 +49,7 @@ function startChat(friendKey, friendName, friendPhoto){
 
         document.getElementById('messages').innerHTML = '';
 
-        onKeyDown();
+       // onKeyDown();
         document.getElementById('txtMessage').focus();
         document.getElementById('txtMessage').value = '';
     //--------- Display chat messages
@@ -96,15 +104,7 @@ function hideChatList(){
     document.getElementById('side-1').classList.add('d-none', 'd-md-block');
     document.getElementById('side-2').classList.remove('d-none');
 }
-// sending message
-function onKeyDown(){
-    document.addEventListener('keydown', function(event){
-        if(event.key === "Enter"){
-            sendMessage(); 
-            //console.log('enter');  
-        }
-    });
-}
+
 
 function sendMessage(){
     // var date = new Date();
