@@ -158,7 +158,7 @@ function loadChatList(){
             else if(lst.userId === currentUserKey){
                 friendKey = lst.friendId;
             }
-           // if(friendKey !== '' && friendKey !== 1){
+           if(friendKey !== '' && friendKey !== 1){
                 firebase.database().ref('users').child(friendKey).on('value', function(data){
                     var user = data.val();
                     document.getElementById('lstChat').innerHTML += `<li class="list-group-item list-group-item-action" onclick="startChat('${data.key}','${user.name}','${user.photoURL}')">
@@ -173,7 +173,8 @@ function loadChatList(){
                     </div>
                 </li>`;
                 });    
-           // }
+           
+            }
             
         });
     });
