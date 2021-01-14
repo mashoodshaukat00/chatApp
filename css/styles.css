@@ -46,6 +46,7 @@ background-image: linear-gradient(180deg, #dddbd1,#d2dbdc);
 .icon{
     font-size: 20px;
     color: #9ca1a3;
+    cursor: pointer;
 }
 .chat-pic{
     height: 30px;
@@ -83,6 +84,9 @@ background-image: linear-gradient(180deg, #dddbd1,#d2dbdc);
 #lstChat{
     overflow-y: scroll;
     overflow-x: hidden;
+}
+.dropdown-toggle::after{
+    display: none !important;
 }
 
 

@@ -64,14 +64,21 @@ function loadChatMessages(chatKey, friendPhoto){
         var messageDisplay = '';
         chats.forEach(function(data){
         var chat = data.val();
-        var dateTime = chat.dateTime.split(',') ;
+        var dateTime = chat.dateTime.split(',');
+        var msg = '';
+        if(chat.msg.indexOf('base64') !== -1){
+            msg = `<img src="${chat.msg}" class = "img-fluid">`;
+        }  
+        else{
+            msg = chat.msg;
+        }  
         if(chat.userId !== currentUserKey){
         messageDisplay += ` <div class="row">
                             <div class="col-2 col-sm-1 col-md-1">
                                 <img class="chat-pic rounded-circle" src="${friendPhoto}" alt="image">
                             </div>
                             <div class="col-6 col-sm-6 col-md-6">
-                                <p class="receive"> ${chat.msg}
+                                <p class="receive"> ${msg}
                                 <span class="time" title="${dateTime[0]}">${dateTime[1]}</span>
                             </p>
                             </div>
@@ -80,7 +87,7 @@ function loadChatMessages(chatKey, friendPhoto){
         else{
             messageDisplay += `<div class="row justify-content-end">                  
             <div class="col-6 col-sm-6 col-md-6">
-                <p class="sent float-right"> ${chat.msg}
+                <p class="sent float-right"> ${msg}
                 <span class="time float-right" title="${dateTime[0]}">${dateTime[1]}  </span>
             </p>
             </div>
@@ -141,6 +148,41 @@ function sendMessage(){
     });  
     
 }
+//----- Send Image /////////////////
+function chooseImage(){
+    document.getElementById('imageFile').click();
+}
+//----- How to send image----
+function sendImage(event){
+    var file = event.files[0];
+    if(!file.type.match("image.*")){
+    alert("please select image only");       
+    }
+    else{
+        var reader = new FileReader();
+        reader.addEventListener('load', function(){
+            var chatMessage = {
+                userId: currentUserKey,
+                msg: reader.result,
+                dateTime: new Date().toLocaleString()
+            };
+            firebase.database().ref('chatMessages').child(chatKey).push(chatMessage, function(error){
+                if(error) {alert(error);
+                }
+                else{
+       
+             document.getElementById('txtMessage').value = '';
+             document.getElementById('txtMessage').focus();
+                }
+            });
+        }, false);
+
+        if(file){
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
 ///////////////////////////////////////////////////////////
 
 function loadChatList(){
